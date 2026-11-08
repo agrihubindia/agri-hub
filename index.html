@@ -31,6 +31,7 @@ main{max-width:1000px;margin:auto;padding:0 16px}section{margin:34px 0}h2{font-s
 .ic{width:64px;height:64px;margin:0 auto 8px;border-radius:50%;display:grid;place-items:center;font-size:2rem;background:linear-gradient(135deg,#e8f5e9,#c8e6c9);overflow:hidden}.ic img{width:100%;height:100%;object-fit:cover}
 .exam b{display:block;font-size:1.15rem;color:var(--pr)}.exam small{color:var(--mu)}
 .sem{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}.semc{border:1px solid var(--bd);border-radius:14px;padding:14px;text-align:center}.semc b{display:block}.semc small{display:block;color:var(--mu);margin-bottom:8px}.why{background:rgba(46,125,50,.08);border-radius:14px;padding:14px;margin:12px 0}.why ul{padding:0;list-style:none;margin:8px 0}.why li{margin:6px 0}
+.pwrap{position:relative}.pwrap .f{padding-right:48px}.eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:0;cursor:pointer;color:var(--mu);padding:6px;display:grid}
 .back{background:none;border:0;color:var(--pr);font-weight:700;font-size:1rem;cursor:pointer;padding:16px 0 0}
 .ch{text-align:center;padding:18px 0;animation:up .6s both}.ch .ic{width:104px;height:104px;font-size:3.4rem;box-shadow:var(--sh);border:4px solid var(--card)}.ch h1{margin:8px 0 4px}.ch p{color:var(--mu);margin:0}
 .price{font-size:2.2rem;font-weight:800;color:var(--pr);margin:6px 0}.price small{font-size:.9rem;color:var(--mu);font-weight:400}
@@ -65,7 +66,7 @@ footer{text-align:center;padding:24px 16px;color:var(--mu);font-size:.85rem;bord
   </div>
   <section id="exams" class="reveal"><h2>🎯 Courses &amp; Government Agriculture Jobs</h2><div class="grid" id="examGrid"></div></section>
   <section class="reveal"><div class="quote">“Work so quietly that your success makes the noise. Your selection is certain!” 💪</div></section>
-  <section class="reveal"><h2>📝 Today’s Daily Quiz <small style="font-size:.8rem;color:var(--mu)">(Free)</small></h2>
+  <section class="reveal"><h2>📝 Today’s Daily Quiz</h2>
     <div class="card"><div id="quiz"></div><button class="btn" id="qsub">Submit</button><div id="qres" style="margin-top:12px;font-weight:700"></div></div></section>
   <section class="reveal"><h2>🤝 Need Help?</h2><div class="card">Facing any problem with payment, PDFs or login? Contact us and we will help you fully.<div class="cn" id="help"></div></div></section>
   <section class="reveal"><h2 style="text-align:center">Follow Us</h2><div class="soc" id="soc"></div></section>
@@ -77,12 +78,20 @@ footer{text-align:center;padding:24px 16px;color:var(--mu);font-size:.85rem;bord
 
 <div class="modal" id="mLogin"><div class="box"><button class="x" data-close>×</button>
   <h3 id="authTitle">Login</h3>
-  <input class="f" id="ph" type="tel" inputmode="numeric" maxlength="10" placeholder="Phone number (10 digits)">
-  <input class="f" id="pw" type="password" placeholder="Password (at least 4 characters)">
+  <input class="f" id="ph" autocomplete="username" placeholder="Phone number or email">
+  <div id="emW" hidden><input class="f" id="em2" type="email" autocomplete="email" placeholder="Email (needed to reset password)"></div>
+  <div id="pwW" class="pwrap"><input class="f" id="pw" type="password" autocomplete="current-password" placeholder="Password (at least 6 characters)"><button type="button" class="eye" data-eye aria-label="Show password"></button></div>
   <button class="btn" style="width:100%;margin-top:8px" id="authGo">Login</button>
-  <p style="text-align:center"><a href="#" id="authSw">Create a new account</a></p><div id="authMsg" style="color:#c62828"></div></div></div>
+  <p style="text-align:center;margin:12px 0 0"><a href="#" id="fgLink">Forgot password?</a></p>
+  <p style="text-align:center;margin:6px 0 0"><a href="#" id="authSw">Create a new account</a></p><div id="authMsg" style="color:#c62828;margin-top:8px"></div></div></div>
+<div class="modal" id="mReset"><div class="box"><h3>Set a new password</h3>
+  <div class="pwrap"><input class="f" id="npw" type="password" autocomplete="new-password" placeholder="New password (at least 6 characters)"><button type="button" class="eye" data-eye aria-label="Show password"></button></div>
+  <button class="btn" style="width:100%;margin-top:8px" id="rsGo">Save New Password</button><div id="rsMsg" style="margin-top:8px"></div></div></div>
+<div class="modal" id="mView"><div class="box" style="max-width:900px;height:90vh"><button class="x" data-close>×</button><div id="vBody" style="user-select:none;-webkit-user-select:none;clear:both"></div></div></div>
 <div class="modal" id="mPol"><div class="box pol"><button class="x" data-close>×</button><div id="polBody"></div></div></div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
 /* ===== CONFIG: change everything from here ===== */
 const CONFIG={
@@ -119,7 +128,7 @@ $("#help").innerHTML='<a href="mailto:'+CONFIG.email+'">✉️ '+CONFIG.email+'<
 $("#waFloat").href=wa("Hello, I need help on Agri Hub.");
 $("#soc").innerHTML=CONFIG.social.map(s=>'<a href="'+(s.u||"#")+'" target="_blank" rel="noopener">'+s.n+'</a>').join("");
 const icon=e=>e.logo?'<img src="'+e.logo+'" alt="'+e.name+'">':e.icon;
-$("#examGrid").innerHTML=CONFIG.exams.map(e=>'<div class="card exam" data-id="'+e.id+'"><div class="ic">'+icon(e)+'</div><b>'+e.name+'</b><small>'+e.full+'</small>'+(e.kind=="free"?'<span class="free" style="display:inline-block;margin-top:6px">FREE</span>':e.kind=="papers"?'<span class="free" style="display:inline-block;margin-top:6px">₹'+e.price+'</span>':'')+'</div>').join("");
+$("#examGrid").innerHTML=CONFIG.exams.map(e=>'<div class="card exam" data-id="'+e.id+'"><div class="ic">'+icon(e)+'</div><b>'+e.name+'</b><small>'+e.full+'</small></div>').join("");
 const open=id=>$(id).classList.add("on");
 document.querySelectorAll("[data-close]").forEach(b=>b.onclick=()=>b.closest(".modal").classList.remove("on"));
 document.querySelectorAll(".modal").forEach(m=>m.onclick=e=>{if(e.target===m)m.classList.remove("on")});
@@ -136,16 +145,78 @@ document.querySelectorAll("[data-pol]").forEach(a=>a.onclick=e=>{e.preventDefaul
 $("#quiz").innerHTML=CONFIG.quiz.map((x,i)=>'<div class="q"><b>'+(i+1)+'. '+x.q+'</b>'+x.o.map((o,j)=>'<label><input type="radio" name="q'+i+'" value="'+j+'">'+o+'</label>').join("")+'</div>').join("");
 $("#qsub").onclick=()=>{let sc=0,miss=0;CONFIG.quiz.forEach((x,i)=>{const c=document.querySelector('input[name=q'+i+']:checked');document.querySelectorAll('input[name=q'+i+']').forEach((r,j)=>{const l=r.parentElement;l.classList.remove("ok","no");if(j==x.a)l.classList.add("ok");else if(r.checked)l.classList.add("no")});if(!c)miss++;else if(+c.value==x.a)sc++});
  $("#qres").textContent=(miss?"Please attempt all questions ("+miss+" left). ":"")+"Your score: "+sc+" / "+CONFIG.quiz.length+(sc>=4?" 🎉 Excellent!":" 👍 Keep practising!")};
-/* login (demo: saved in this browser only; real login needs a backend) */
+/* login: phone or email + password (Supabase) */
 let mode="login";const user=()=>LS.g("ah_user");
+const EYE='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',EYEX='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+document.querySelectorAll("[data-eye]").forEach(b=>{b.innerHTML=EYE;b.onclick=()=>{const i=b.parentElement.querySelector("input"),h=i.type=="password";i.type=h?"text":"password";b.innerHTML=h?EYEX:EYE;b.setAttribute("aria-label",h?"Hide password":"Show password")}});
 function paintLogin(){const u=user();$("#loginBtn").textContent=u?"Logout ("+u.slice(-4)+")":"Login"}paintLogin();
-$("#loginBtn").onclick=()=>{if(user()){LS.s("ah_user","");paintLogin()}else{mode="login";authUI();open("#mLogin")}};
-function authUI(){$("#authTitle").textContent=mode=="login"?"Login":"Create Account";$("#authGo").textContent=mode=="login"?"Login":"Sign Up";$("#authSw").textContent=mode=="login"?"Create a new account":"Already have an account? Login";$("#authMsg").textContent=""}
+$("#loginBtn").onclick=()=>{if(user()){LS.s("ah_user","");sb.auth.signOut();paintLogin();route()}else{mode="login";authUI();open("#mLogin")}};
+function authUI(){const L=mode=="login",S=mode=="signup",F=mode=="forgot";
+ $("#authTitle").textContent=L?"Login":S?"Create Account":"Reset Password";$("#authGo").textContent=L?"Login":S?"Sign Up":"Send Reset Link";
+ $("#ph").hidden=F;$("#ph").placeholder=S?"Phone number (10 digits)":"Phone number or email";$("#ph").inputMode=S?"numeric":"text";
+ $("#emW").hidden=!(S||F);$("#pwW").hidden=F;$("#fgLink").parentElement.hidden=!L;
+ $("#authSw").textContent=L?"Create a new account":"Back to login";$("#authMsg").textContent=""}
 $("#authSw").onclick=e=>{e.preventDefault();mode=mode=="login"?"signup":"login";authUI()};
-$("#authGo").onclick=()=>{const p=$("#ph").value.trim(),w=$("#pw").value,m=$("#authMsg");if(!/^\d{10}$/.test(p))return m.textContent="Enter a valid 10-digit phone number.";if(w.length<4)return m.textContent="Password must be at least 4 characters.";
- const k="ah_acc_"+p;if(mode=="signup"){if(LS.g(k))return m.textContent="This number is already registered.";LS.s(k,w)}else if(LS.g(k)!==w)return m.textContent="Wrong phone number or password.";
- LS.s("ah_user",p);paintLogin();$("#mLogin").classList.remove("on");$("#ph").value=$("#pw").value=""};
+$("#fgLink").onclick=e=>{e.preventDefault();mode="forgot";authUI()};
+async function syncUser(){const {data:{session}}=await sb.auth.getSession();
+ if(!session){LS.s("ah_user","");paintLogin();return}
+ let ph=null;try{const {data}=await sb.from("profiles").select("phone").maybeSingle();ph=data&&data.phone}catch(_){}
+ if(!ph){const mm=(session.user.email||"").match(/^p(\d{10})@agrihub-users\.com$/);ph=mm?mm[1]:"user"}
+ LS.s("ah_user",ph);paintLogin()}
+async function authDone(){await syncUser();$("#mLogin").classList.remove("on");$("#ph").value=$("#pw").value=$("#em2").value="";route()}
+$("#authGo").onclick=async()=>{const idf=$("#ph").value.trim(),w=$("#pw").value,e2=$("#em2").value.trim().toLowerCase(),m=$("#authMsg"),b=$("#authGo"),okm=x=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(x);
+ m.style.color="#c62828";
+ if(mode=="forgot"){if(!okm(e2))return m.textContent="Enter the email you used to sign up.";
+  b.disabled=true;await sb.auth.resetPasswordForEmail(e2,{redirectTo:location.origin+location.pathname});b.disabled=false;
+  m.style.color="#2e7d32";return m.textContent="If this email is registered, a password reset link has been sent. Please check your inbox and spam folder."}
+ if(mode=="signup"){if(!/^\d{10}$/.test(idf))return m.textContent="Enter a valid 10-digit phone number.";if(!okm(e2))return m.textContent="Enter a valid email address.";if(w.length<6)return m.textContent="Password must be at least 6 characters.";
+  b.disabled=true;let r=await sb.auth.signUp({email:e2,password:w,options:{data:{phone:idf}}});
+  if(!r.error&&!r.data.session)r=await sb.auth.signInWithPassword({email:e2,password:w});
+  b.disabled=false;
+  if(r.error)return m.textContent=/already|registered|database|duplicate/i.test(r.error.message||"")?"This phone number or email is already registered. Please login.":"Could not create account. Please try again.";
+  return authDone()}
+ if(!idf||w.length<6)return m.textContent="Enter your phone number or email and your password.";
+ b.disabled=true;let r;
+ if(okm(idf))r=await sb.auth.signInWithPassword({email:idf.toLowerCase(),password:w});
+ else if(/^\d{10}$/.test(idf)){const x=await fetch(SB_URL+"/functions/v1/login",{method:"POST",headers:{"Content-Type":"application/json",apikey:SB_KEY},body:JSON.stringify({phone:idf,password:w})}).then(q=>q.json()).catch(()=>({}));
+  r=x.access_token?await sb.auth.setSession({access_token:x.access_token,refresh_token:x.refresh_token}):{error:{message:"invalid"}}}
+ else{b.disabled=false;return m.textContent="Enter a valid 10-digit phone number or email."}
+ b.disabled=false;
+ if(r.error)return m.textContent="Wrong phone/email or password.";
+ authDone()};
+$("#rsGo").onclick=async()=>{const v=$("#npw").value,m=$("#rsMsg");m.style.color="#c62828";if(v.length<6)return m.textContent="Password must be at least 6 characters.";
+ const {error}=await sb.auth.updateUser({password:v});if(error)return m.textContent="Could not change password. Please open the reset link from your email again.";
+ m.style.color="#2e7d32";m.textContent="Password changed successfully!";$("#npw").value="";history.replaceState(null,"",location.pathname);await syncUser();setTimeout(()=>{$("#mReset").classList.remove("on");m.textContent=""},1500)};
 /* course page (own page: logo on top, price below) */
+const SB_URL="https://hbkopzueizmxwjjkgipw.supabase.co",SB_KEY="sb_publishable__cSt6p29UDqLYD3wcCzSfA_PUo5CX_a";
+const sb=window.supabase.createClient(SB_URL,SB_KEY),em=p=>"p"+p+"@agrihub-users.com";
+async function fn(name,body){const {data:{session}}=await sb.auth.getSession();if(!session)return{error:"Please login first"};
+ try{const r=await fetch(SB_URL+"/functions/v1/"+name,{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token,apikey:SB_KEY},body:JSON.stringify(body||{})});return await r.json()}catch(_){return{error:"Network error. Please try again."}}}
+const loadRzp=()=>new Promise((ok,no)=>{if(window.Razorpay)return ok();const t=document.createElement("script");t.src="https://checkout.razorpay.com/v1/checkout.js";t.onload=ok;t.onerror=no;document.head.appendChild(t)});
+async function buyPapers(e){
+ if(!user()){mode="login";authUI();$("#authMsg").textContent="Please login to buy.";return open("#mLogin")}
+ const b=$("#buy"),lbl="Buy Now – ₹"+e.price;b.disabled=true;b.textContent="Please wait...";
+ const o=await fn("create-order",{product_id:"cpct-papers"});
+ if(o.error){alert(o.error);b.disabled=false;b.textContent=lbl;return}
+ try{await loadRzp()}catch(_){alert("Could not load payment window. Check internet and try again.");b.disabled=false;b.textContent=lbl;return}
+ new Razorpay({key:o.key_id,amount:o.amount,currency:"INR",order_id:o.order_id,name:"Agri Hub",description:"CPCT Previous Year Papers",prefill:{contact:user()},theme:{color:"#2e7d32"},
+  handler:async r=>{b.textContent="Verifying payment...";const v=await fn("verify-payment",{order_id:r.razorpay_order_id,payment_id:r.razorpay_payment_id,signature:r.razorpay_signature});
+   if(v.ok){alert("Payment successful! Your papers are now open.");route()}else alert("Payment received but we could not unlock your papers. Please contact us with this payment id: "+r.razorpay_payment_id)},
+  modal:{ondismiss:()=>{b.disabled=false;b.textContent=lbl}}}).open()}
+async function papersInit(e){if(!user())return;const r=await fn("get-paper",{});if(!r.folders)return;const c=$("#course .card");if(!c)return;
+ const clean=n=>n.replace(/\.pdf$/i,"").replace(/_/g," ");
+ c.innerHTML='<h3 style="margin:0">✅ You have full access</h3><p style="color:var(--mu)">Tap a paper to open it. Papers open only inside this website.</p>'+(r.folders.length?r.folders.slice().reverse().map(f=>'<h4 style="margin:16px 0 6px">'+f.folder+'</h4><div class="sem">'+f.files.map(n=>'<div class="semc"><small>'+clean(n)+'</small><button class="btn" data-p="'+f.folder+'/'+n+'">Open PDF</button></div>').join("")+'</div>').join(""):'<p>Papers are being added.</p>');
+ c.querySelectorAll("[data-p]").forEach(x=>x.onclick=()=>openPdf(x.dataset.p))}
+async function openPdf(path){open("#mView");const v=$("#vBody");v.innerHTML="Loading...";
+ const r=await fn("get-paper",{action:"url",path});if(r.error){v.textContent=r.error;return}
+ try{pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  const pdf=await pdfjsLib.getDocument(r.url).promise;v.innerHTML="";const w=Math.min(v.clientWidth||360,860),wm=user();
+  for(let i=1;i<=pdf.numPages;i++){const pg=await pdf.getPage(i),sc=w/pg.getViewport({scale:1}).width,vp=pg.getViewport({scale:sc*2});
+   const cv=document.createElement("canvas");cv.width=vp.width;cv.height=vp.height;cv.style.cssText="width:"+w+"px;display:block;margin:0 auto 8px";v.appendChild(cv);
+   const cx=cv.getContext("2d");await pg.render({canvasContext:cx,viewport:vp}).promise;
+   cx.save();cx.globalAlpha=.16;cx.fillStyle="#000";cx.font="bold "+Math.round(vp.width/13)+"px sans-serif";cx.textAlign="center";cx.translate(vp.width/2,vp.height/2);cx.rotate(-Math.PI/5);cx.fillText("Agri Hub · "+wm,0,0);cx.restore()}
+ }catch(_){v.textContent="Could not open this PDF. Please try again."}}
+$("#vBody").oncontextmenu=ev=>ev.preventDefault();
 const buyHtml=e=>'<div class="sample">'+(e.sampleUrl?'<a href="'+e.sampleUrl+'" target="_blank" rel="noopener">👁️ View free sample (1-2 pages)</a>':'👁️ Free sample of 1-2 pages will appear here.')+'</div><button class="btn buy" id="buy">Buy Now – ₹'+e.price+'</button><div class="trust">🔒 <span>'+CONFIG.trust+'</span></div>';
 function route(){const id=location.hash.slice(1),e=CONFIG.exams.find(x=>x.id==id);
  $("#home").hidden=!!e;$("#course").hidden=!e;window.scrollTo(0,0);if(!e)return;
@@ -156,11 +227,11 @@ function route(){const id=location.hash.slice(1),e=CONFIG.exams.find(x=>x.id==id
  $("#course").innerHTML='<button class="back" id="bk">← Back to all courses</button><div class="ch"><div class="ic">'+icon(e)+'</div><h1>'+e.name+'</h1><p>'+e.full+'</p></div>'+b;
  $("#bk").onclick=()=>{location.hash="exams"};
  document.querySelectorAll("[data-sem]").forEach(x=>x.onclick=()=>{const n=+x.dataset.sem,u=e.semLinks[n];if(u)window.open(u,"_blank","noopener");else alert("Semester "+(n+1)+" notes are being added. Please check back soon or contact us.")});
- const bu=$("#buy");if(bu)bu.onclick=()=>{if(!user()){mode="login";authUI();$("#authMsg").textContent="Please login to buy.";return open("#mLogin")}
+ if(e.kind=="papers")papersInit(e);const bu=$("#buy");if(bu)bu.onclick=()=>{if(e.kind=="papers")return buyPapers(e);if(!user()){mode="login";authUI();$("#authMsg").textContent="Please login to buy.";return open("#mLogin")}
   if(e.payLink)window.open(e.payLink,"_blank","noopener");else{alert("Online payment link is not set yet. Please order on WhatsApp.");window.open(wa("I want to buy the "+e.name+" course (Rs "+e.price+"). Phone: "+user()),"_blank")}}}
 $("#examGrid").onclick=e=>{const c=e.target.closest(".exam");if(c)location.hash=c.dataset.id};
 $("#home-link").onclick=()=>{location.hash="";route()};
-addEventListener("hashchange",route);route();
+addEventListener("hashchange",route);syncUser();sb.auth.onAuthStateChange(ev=>{if(ev=="PASSWORD_RECOVERY")open("#mReset")});route();
 const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting)x.target.classList.add("in")}),{threshold:.1});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 </script>
