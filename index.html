@@ -60,6 +60,7 @@ footer{text-align:center;padding:24px 16px;color:var(--mu);font-size:.85rem;bord
 .msec{border:1px solid var(--bd);border-radius:14px;margin:10px 0;overflow:hidden;background:var(--card)}.mhead{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;padding:14px;border:0;background:linear-gradient(90deg,rgba(46,125,50,.14),transparent);color:var(--tx);font-weight:700;font-size:1rem;cursor:pointer;text-align:left}.mhead small{color:var(--mu);font-weight:400}.mbody{padding:6px 12px 12px}.frow{display:flex;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--bd)}.frow:last-child{border:0}.frow span{flex:1;font-size:.92rem;word-break:break-word}.frow .btn{padding:7px 12px;font-size:.85rem}
 .pick,.nb{cursor:pointer;transition:transform .15s,box-shadow .2s}.pick:hover,.nb:hover{transform:translateY(-2px);box-shadow:var(--sh)}.nl{display:grid;gap:10px;margin-top:12px}.nb{border:1px solid var(--bd);border-radius:14px;padding:14px;background:var(--card)}.nb.first{border-color:var(--pr);background:rgba(46,125,50,.08)}
 .bbox{display:block;width:100%;text-align:left;padding:15px 16px;margin:9px 0;border:1px solid var(--bd);border-radius:14px;background:var(--card);color:var(--tx);font-size:1rem;font-weight:600;cursor:pointer;font-family:inherit;transition:transform .15s,border-color .2s}.bbox:hover{transform:translateY(-2px);border-color:var(--pr)}
+.cbtns{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.cbtn{flex:1;min-width:150px;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 16px;border-radius:16px;color:#fff;font-weight:800;text-decoration:none;font-size:1rem;box-shadow:0 7px 0 rgba(0,0,0,.28),0 14px 20px rgba(0,0,0,.22);transition:transform .12s,box-shadow .12s,filter .2s}.cbtn:hover{transform:translateY(-3px);filter:brightness(1.07)}.cbtn:active{transform:translateY(5px);box-shadow:0 2px 0 rgba(0,0,0,.28),0 4px 8px rgba(0,0,0,.2)}.cbtn.wa{background:linear-gradient(180deg,#3ddc6f,#128c3e)}.cbtn.call{background:linear-gradient(180deg,#42a5f5,#1565c0)}.ci{font-size:1.2rem}
 </style>
 </head>
 <body>
@@ -129,11 +130,14 @@ const CONFIG={
     {id:"nabard",name:"NABARD",icon:"🏦",logo:"",full:"Grade A / B Officer Exam",price:349,payLink:"",sampleUrl:""},
     {id:"raeo",name:"RAEO",icon:"🌱",logo:"",full:"Rural Agriculture Extension Officer",price:349,payLink:"",sampleUrl:""},
     {id:"afo",name:"AFO",icon:"🧑‍🌾",logo:"",full:"Agriculture Field Officer",price:349,payLink:"",sampleUrl:""},
-    {id:"pat",name:"PAT",icon:"📚",logo:"",full:"Pre Agriculture Test",price:349,payLink:"",sampleUrl:""},
+    {id:"pat",name:"Pre Agriculture Test (PAT)",icon:"📚",logo:"",full:"Notes, Previous Papers & Mock Tests",price:349,payLink:"",sampleUrl:"",kind:"pat",productId:"pat"},
     {id:"cpct",name:"CPCT",icon:"💻",logo:"",full:"Previous Year Question Papers",kind:"papers",price:49,payLink:"",sampleUrl:""}
   ],
   bscData:{"old": [{"n": "Semester I", "s": ["Fundamentals of Horticulture", "Fundamentals of Plant Biochemistry and Biotechnology", "Fundamentals of Soil Science", "Introduction to Forestry", "Comprehension & Communication Skills in English", "Fundamentals of Agronomy", "Introductory Biology", "Elementary Mathematics", "Agriculture Heritage", "Rural Sociology & Educational Psychology", "Human Values & Ethics (non gradial)"]}, {"n": "Semester II", "s": ["Fundamentals of Genetics", "Agricultural Microbiology", "Soil and Water Conservation Engineering", "Fundamentals of Crop Physiology", "Fundamentals of Agricultural Economics", "Fundamentals of Plant Pathology", "Fundamentals of Entomology", "Fundamentals of Agricultural Extension Education", "Communication Skills and Personality Development"]}, {"n": "Semester III", "s": ["Crop Production Technology – I (Kharif Crops)", "Fundamentals of Plant Breeding", "Agricultural Finance and Cooperation", "Agriculture Informatics", "Farm Machinery and Power", "Production Technology for Vegetables and Spices", "Environmental Studies and Disaster Management", "Statistical Methods", "Livestock and Poultry Management"]}, {"n": "Semester IV", "s": ["Crop Production Technology -II (Rabi Crops)", "Production Technology for Ornamental Crops, MAP and Landscaping", "Renewable Energy and Green Technology", "Problematic Soils and their Management", "Production Technology for Fruit and Plantation Crops", "Principles of Seed Technology", "Farming System & Sustainable Agriculture", "Agricultural Marketing Trade & Prices", "Introductory Agro-meteorology & Climate Change"]}, {"n": "Semester V", "s": ["Principles of Integrated Pest and Disease Management", "Manures, Fertilizers and Soil Fertility Management", "Pests of Crops and Stored Grain and their Management", "Diseases of Field and Horticultural Crops and their Management -I", "Crop Improvement-I (Kharif Crops)", "Entrepreneurship Development and Business Communication", "Gebinformatics and Nano-technology for Precision Farming", "Intellectual Property Rights"]}, {"n": "Semester VI", "s": ["Rainfed Agriculture & Watershed Management", "Protected Cultivation and Secondary Agriculture", "Diseases of Field and Horticultural Crops and their Management-II", "Post-harvest Management and Value Addition of Fruits and Vegetables", "Management of Beneficial Insects", "Crop Improvement-II (Rabi crops)", "Principles of Organic Farming", "Farm Management, Production & Resource Economics", "Principles of Food Science and Nutrition"]}], "new": [{"n": "Semester I", "s": ["Rural Sociology and Educational Psychology", "Communication Skills", "Fundamentals of Agronomy", "Farming Based Livelihood Systems", "Fundamentals of Soil Science", "Fundamentals of Horticulture"]}, {"n": "Semester II", "s": ["Personality Development", "Environmental Management Studies and Disaster", "Soil Fertility Management", "Fundamentals of Entomology", "Livestock and Poultry Management", "Fundamentals of Plant Pathology"]}, {"n": "Semester III", "s": ["Entrepreneurship Development and Business Communication", "Principles of genetic", "Crop Production Technology-1 (Kharif crops)", "Production Technology of Fruit and Plantation Crops", "Fundamentals of Extension Education", "Fundamentals of Nematology", "Principles and Practices of Natural Farming"]}, {"n": "Semester IV", "s": ["Agricultural Informatics and Artificial Intelligence (AI", "Spices Production Technology of Vegetables and Spices", "Principles of Agricultural Economics and Farm Management", "Crop Production Technology-II (Rabi Crops)", "Farm Machinery and Power", "Water Management", "Problematic Soils and Their Management", "Basics of Plant Breeding"]}, {"n": "Semester V", "s": ["Agricultural Marketing and Trade", "Weed Management", "Introduction to Agro-meteorology", "Fundamentals of Crop Physiology", "Pest Management in Crops and Stored Grains", "Diseases of Field and Horticultural Crops and their Management", "Crop Improvement (Kharif crops) -I", "Ornamental Crops, MAPs and Landscaping", "Introductory Agro Forestry"]}, {"n": "Semester VI", "s": ["Fundamentals of Agricultural Biotechnology", "Basic and Applied Agricultural Statistics", "Crop Improvement (Rabi crops) -II", "Renewable Energy in Agriculture and Allied Sector", "Dryland Agriculture/ Rainfed Agriculture and Watershed Management", "Agricultural Microbiology and Phyto-remediation", "Agricultural Finance and Cooperation", "Essentials of Plant Biochemistry", "Fundamentals of Seed Science and Technology"]}]},
   bscLinks:{},   /* optional: add a link for a box, key format "old|Semester I|Subject name" */
+  patNotes:[{k:"crop-production",n:"Crop Production 🌾"},{k:"animal-husbandry",n:"Animal Husbandry"},{k:"pcmp",n:"PCMP"}],
+  patYears:[2026,2025,2024,2023,2022,2021,2020,2019,2018,2017],
+  patMock:[2026,2025,2024,2023,2022],
   cpctMonths:[{y:2026,m:9},{y:2026,m:7},{y:2026,m:5},{y:2026,m:3},{y:2026,m:1}],   /* CPCT sections shown after purchase */
   bonus:[{t:"Test Series",ic:"✅",d:"Full-length mock tests with answers"},{t:"Previous 10 Year Papers",ic:"🗂️",d:"Solved papers of the last 10 years"}],
   quiz:[
@@ -183,7 +187,7 @@ $("#pnpw").addEventListener("input",()=>{$("#pnpwRules").innerHTML=rulesHTML($("
 $("#pfSave").onclick=async()=>{const v=$("#pnpw").value,m=$("#pfMsg");m.style.color="#c62828";if(!isStrong(v))return m.textContent="Use a strong password: 8+ characters with a capital letter, a small letter and a number.";
  const {error}=await sb.auth.updateUser({password:v});if(error)return m.textContent="Could not change password. Please logout, login again and retry.";m.style.color="#2e7d32";m.textContent="Password changed successfully!";$("#pnpw").value=""};
 async function openProfile(){const ph=user()||"";$("#pfName").textContent=LS.g("ah_name")||"Student";$("#pfPh").textContent=/^\d{10}$/.test(ph)?ph:"—";$("#pfEm").textContent=LS.g("ah_email")||"—";$("#pfAcc").textContent="Loading...";open("#mProf");
- try{const {data}=await sb.from("purchases").select("product_id");$("#pfAcc").innerHTML=data&&data.length?"✅ <b>CPCT Previous Year Papers</b> – purchased":"You have not purchased any course yet."}catch(_){$("#pfAcc").textContent=""}}
+ try{const {data}=await sb.from("purchases").select("product_id");$("#pfAcc").innerHTML=data&&data.length?"✅ <b>"+data.map(x=>esc(PNAME[x.product_id]||x.product_id)).join(", ")+"</b> – purchased":"You have not purchased any course yet."}catch(_){$("#pfAcc").textContent=""}}
 paintLogin();
 $("#loginBtn").onclick=()=>{if(user())openProfile();else{mode="login";authUI();open("#mLogin")}};
 $("#pfOut").onclick=()=>{["ah_user","ah_name","ah_email"].forEach(k=>LS.s(k,""));sb.auth.signOut();paintLogin();$("#mProf").classList.remove("on");route()};
@@ -239,17 +243,17 @@ const loadRzp=()=>new Promise((ok,no)=>{if(window.Razorpay)return ok();const t=d
 async function buyPapers(e){
  if(!user()){mode="login";authUI();$("#authMsg").textContent="Please login to buy.";return open("#mLogin")}
  const b=$("#buy"),lbl="Buy Now – ₹"+e.price;b.disabled=true;b.textContent="Please wait...";
- const o=await fn("create-order",{product_id:"cpct-papers"});
+ const o=await fn("create-order",{product_id:e.productId||"cpct-papers"});
  if(o.error){alert(o.error);b.disabled=false;b.textContent=lbl;return}
  try{await loadRzp()}catch(_){alert("Could not load payment window. Check internet and try again.");b.disabled=false;b.textContent=lbl;return}
- new Razorpay({key:o.key_id,amount:o.amount,currency:"INR",order_id:o.order_id,name:"Agri Hub",description:"CPCT Previous Year Papers",prefill:{contact:user()},theme:{color:"#2e7d32"},
+ new Razorpay({key:o.key_id,amount:o.amount,currency:"INR",order_id:o.order_id,name:"Agri Hub",description:e.productId?"PAT Course":"CPCT Previous Year Papers",prefill:{contact:user()},theme:{color:"#2e7d32"},
   handler:async r=>{b.textContent="Verifying payment...";const v=await fn("verify-payment",{order_id:r.razorpay_order_id,payment_id:r.razorpay_payment_id,signature:r.razorpay_signature});
    if(v.ok){alert("Payment successful! Your papers are now open.");route()}else alert("Payment received but we could not unlock your papers. Please contact us with this payment id: "+r.razorpay_payment_id)},
   modal:{ondismiss:()=>{b.disabled=false;b.textContent=lbl}}}).open()}
 const clean2=p=>p.split("/").pop().replace(/\.pdf$/i,"").replace(/_/g," ");
 async function dlPdf(path){const r=await fn("get-paper",{action:"url",path});if(r.error){alert(r.error);return}
  try{const b=await (await fetch(r.url)).blob(),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=path.split("/").pop();document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}catch(_){window.open(r.url,"_blank")}}
-function bscInit(e){const box=$("#bscBox"),D=CONFIG.bscData,L=CONFIG.bscLinks||{},NM={"old":"Old Syllabus","new":"New Syllabus"};let syl=null,sem=null;
+function bscInit(e){const box=$("#bscBox");if(!box)return;const D=CONFIG.bscData,L=CONFIG.bscLinks||{},NM={"old":"Old Syllabus","new":"New Syllabus"};let syl=null,sem=null;
  const BK='<button class="back" data-b="back" style="padding:0 0 10px">← Back</button>';
  function draw(){
   if(!syl)box.innerHTML=["old","new"].map(k=>'<button class="bbox" data-b="syl" data-v="'+k+'">'+NM[k]+'</button>').join("");
@@ -286,17 +290,66 @@ function bscNew(e,sm){const N=e.newSyllabus;
  if(!sm[2])return '<div class="card"><h3 style="margin:0">📚 New Syllabus</h3><div class="sem" style="margin-top:12px">'+N.map((x,i)=>'<div class="semc pick" data-go="bsc-new-'+(i+1)+'"><b>Semester '+x.sem+'</b></div>').join("")+'</div></div>';
  const x=N[sm[2]-1];return '<div class="card"><h3 style="margin:0">📚 Semester '+x.sem+'</h3><div class="nl">'+x.items.map((it,j)=>'<div class="nb'+(j==0?' first':'')+'" data-nl="'+(sm[2]-1)+'-'+j+'"><b>'+esc(it.t)+'</b></div>').join("")+'</div></div>'}
 /*bsc-new-end*/
+const nabardBtns=()=>'<div class="cbtns"><a class="cbtn wa" href="https://wa.me/916264412461?text='+encodeURIComponent("Hello, I want to purchase the NABARD Grade A Course from Agri Hub. Please share the course details.")+'" target="_blank" rel="noopener"><span class="ci">💬</span> WhatsApp</a><a class="cbtn call" href="tel:+916264412461"><span class="ci">📞</span> Call</a></div>';
+const PNAME={"cpct-papers":"CPCT Previous Year Papers","pat":"Pre Agriculture Test (PAT)"};
+const PATURL=SB_URL+"/functions/v1/get-pat";
+let patS={v:"menu",y:null,qs:null,lk:true,ls:null};
+async function patCall(body){const {data:{session}}=await sb.auth.getSession();if(!session)return{error:"Please login first"};
+ try{const r=await fetch(PATURL,{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+session.access_token,apikey:SB_KEY},body:JSON.stringify(body||{})});
+  if(body.action==="pdf"&&r.ok)return{blob:await r.blob()};
+  const j=await r.json().catch(()=>({}));if(!r.ok||j.error)return{error:j.error||"Could not load. Please try again."};return j}
+ catch(_){return{error:"Network error. Please try again."}}}
+function patCard(e){return '<div class="card"><div id="patBox"></div><div id="patBuy"><div class="price">₹'+e.price+' <small>one-time payment</small></div>'+buyHtml(e)+'</div></div>'}
+function patRow(label,path,has){return '<div class="frow"><span>'+esc(label)+'</span>'+((patS.lk||has)?'<button class="btn" data-pb="read" data-p="'+esc(path)+'">Read</button><button class="btn" data-pb="dl" data-p="'+esc(path)+'">⬇ Download</button>':'<small style="color:var(--mu)">Coming soon</small>')+'</div>'}
+function patDraw(){const box=$("#patBox");if(!box)return;const ls=patS.ls||{notes:[],papers:[],mock:[]},lk=patS.lk;
+ const H='<h3 style="margin:0 0 6px">📘 Pre Agriculture Test (PAT)</h3>'+(lk?'<p style="color:var(--mu);margin:0 0 8px">🔒 Course kharidne ke baad ye sab sections khul jayenge.</p>':'<p style="color:var(--mu);margin:0 0 8px">✅ You have full access</p>');
+ const BK='<button class="back" data-pb="back" style="padding:0 0 10px">← Back</button>';
+ if(patS.v=="menu")box.innerHTML=H+[["notes","📚 Notes"],["papers","🗞️ Previous Question Paper"],["mock","📝 Mock Test"]].map(x=>'<button class="bbox" data-pb="'+x[0]+'">'+x[1]+'</button>').join("");
+ else if(patS.v=="notes")box.innerHTML=BK+H+'<h4 style="margin:0 0 6px">📚 Notes</h4>'+CONFIG.patNotes.map(n=>patRow(n.n,"notes/"+n.k+".pdf",ls.notes.includes(n.k+".pdf"))).join("");
+ else if(patS.v=="papers")box.innerHTML=BK+H+'<h4 style="margin:0 0 6px">🗞️ Previous Question Paper</h4>'+CONFIG.patYears.map(y=>patRow("PAT "+y,"papers/"+y+".pdf",ls.papers.includes(y+".pdf"))).join("");
+ else if(patS.v=="mock")box.innerHTML=BK+H+'<h4 style="margin:0 0 6px">📝 Mock Test</h4>'+CONFIG.patMock.map(y=>'<button class="bbox" data-pb="my" data-y="'+y+'"'+((lk||ls.mock.includes(String(y)))?'':' style="opacity:.6"')+'>PAT '+y+'</button>').join("");
+ else if(patS.v=="quiz")box.innerHTML=BK+H+'<h4 style="margin:0 0 6px">📝 PAT '+patS.y+' Mock Test</h4>'+(patS.qs?patS.qs.map((q,i)=>'<div class="q"><b>'+(i+1)+'. '+esc(q.q)+'</b>'+q.options.map((o,j)=>'<label><input type="radio" name="pq'+i+'" value="'+j+'">'+esc(o)+'</label>').join("")+'</div>').join("")+'<button class="btn" data-pb="submit" style="width:100%">Submit Test</button><div id="pRes" style="margin-top:10px;font-weight:700"></div>':'<p>Loading...</p>')}
+async function patClick(ev){const t=ev.target.closest("[data-pb]");if(!t)return;const a=t.dataset.pb;
+ if(a=="back"){patS.v=patS.v=="quiz"?"mock":"menu";patS.qs=null;return patDraw()}
+ if(patS.lk)return alert("Pehle PAT course kharidein. Payment ke baad sab sections khul jayenge.");
+ if(a=="notes"||a=="papers"||a=="mock"){patS.v=a;return patDraw()}
+ if(a=="read")return patOpen(t.dataset.p);
+ if(a=="dl")return patDl(t.dataset.p);
+ if(a=="my"){patS.y=+t.dataset.y;patS.v="quiz";patS.qs=null;patDraw();const r=await patCall({action:"mock",year:String(patS.y)});
+  if(r.error){alert(r.error);patS.v="mock";return patDraw()}patS.qs=r.questions;return patDraw()}
+ if(a=="submit"&&patS.qs){const ans=patS.qs.map((q,i)=>{const c=document.querySelector('input[name="pq'+i+'"]:checked');return c?+c.value:-1});
+  if(ans.includes(-1)){$("#pRes").textContent="Please answer all questions.";return}
+  const r=await patCall({action:"submit",year:String(patS.y),answers:ans});if(r.error){$("#pRes").textContent=r.error;return}
+  r.results.forEach((ok,i)=>{const c=document.querySelector('input[name="pq'+i+'"]:checked');if(c)c.parentElement.classList.add(ok?"ok":"no")});
+  $("#pRes").textContent="Score: "+r.score+" / "+r.total+(r.score*2>=r.total?" 🎉 Good work!":" 👍 Keep practising!")}}
+async function patInit(e){const bx=$("#patBox");if(!bx)return;bx.onclick=patClick;
+ const r=await patCall({action:"list"});patS={v:"menu",y:null,qs:null,lk:!!r.error,ls:r.error?null:r};
+ const bw=$("#patBuy");if(bw)bw.hidden=!patS.lk;patDraw()}
+async function patOpen(path){open("#mView");const v=$("#vBody");v.innerHTML="Loading...";
+ const r=await patCall({action:"pdf",path});if(r.error){v.textContent=r.error;return}
+ try{pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  const pdf=await pdfjsLib.getDocument({data:await r.blob.arrayBuffer()}).promise;
+  v.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px"><b style="font-size:.9rem">'+esc(clean2(path))+'</b><button class="btn" id="patDl2" style="padding:8px 14px">⬇ Download</button></div>';
+  $("#patDl2").onclick=()=>patDl(path);
+  const w=Math.min(v.clientWidth||360,860);
+  for(let i=1;i<=pdf.numPages;i++){const pg=await pdf.getPage(i),sc=w/pg.getViewport({scale:1}).width,vp=pg.getViewport({scale:sc*2});
+   const cv=document.createElement("canvas");cv.width=vp.width;cv.height=vp.height;cv.style.cssText="width:"+w+"px;display:block;margin:0 auto 8px";v.appendChild(cv);
+   await pg.render({canvasContext:cv.getContext("2d"),viewport:vp}).promise}
+ }catch(_){v.textContent="Could not open this PDF. Please try again."}}
+async function patDl(path){const r=await patCall({action:"pdf",path});if(r.error)return alert(r.error);
+ const a=document.createElement("a");a.href=URL.createObjectURL(r.blob);a.download=path.split("/").pop();document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}
 const buyHtml=e=>'<div class="sample">'+(e.sampleUrl?'<a href="'+e.sampleUrl+'" target="_blank" rel="noopener">👁️ View free sample (1-2 pages)</a>':'👁️ Free sample of 1-2 pages will appear here.')+'</div><button class="btn buy" id="buy">Buy Now – ₹'+e.price+'</button><div class="trust">🔒 <span>'+CONFIG.trust+'</span></div>';
 function route(){const raw=location.hash.slice(1),sm=raw.match(/^bsc-(old|new)(?:-([1-6]))?$/),id=sm?"bsc":raw,e=CONFIG.exams.find(x=>x.id==id);
  $("#home").hidden=!!e;$("#course").hidden=!e;window.scrollTo(0,0);if(!e)return;
  let b;
- if(e.kind=="free"&&e.newSyllabus&&!(sm&&sm[1]=="old"))b=bscNew(e,sm);else if(e.kind=="free")b='<div class="card" id="bscBox"></div>';
+ if(e.kind=="free")b='<div class="card" id="bscBox"></div>';
  else if(e.kind=="papers")b='<div class="card"><h3 style="margin:0">📄 CPCT Previous Year Question Papers (PDF)</h3><div class="price">₹'+e.price+' <small>one-time payment</small></div><div class="why"><b>Why students trust this PDF:</b><ul><li>✅ Real previous year CPCT question papers in one PDF</li><li>⚡ Delivered on WhatsApp once your payment is confirmed</li><li>👁️ See a free sample before you buy</li><li>🔒 Safe payment through Razorpay</li><li>📞 Real support on phone, WhatsApp and email</li></ul><p>Just ₹'+e.price+' – less than a snack, but it can save you hours of searching. Start your CPCT practice today!</p></div>'+buyHtml(e)+'</div>';
- else b='<div class="card"><h3 style="margin:0">📒 Complete '+e.name+' Notes (PDF)</h3><div class="price">₹'+e.price+' <small>one-time payment</small></div><b>🎁 Get these FREE with this course:</b>'+CONFIG.bonus.map(x=>'<div class="bonus"><i>'+x.ic+'</i><div><b>'+x.t+'</b><small>'+x.d+'</small></div><span class="free">FREE</span></div>').join("")+buyHtml(e)+'</div>';
+ else if(e.kind=="pat")b=patCard(e);
+ else b='<div class="card"><h3 style="margin:0">📒 Complete '+e.name+' Notes (PDF)</h3><div class="price">₹'+e.price+' <small>one-time payment</small></div><b>🎁 Get these FREE with this course:</b>'+CONFIG.bonus.map(x=>'<div class="bonus"><i>'+x.ic+'</i><div><b>'+x.t+'</b><small>'+x.d+'</small></div><span class="free">FREE</span></div>').join("")+(e.id=="nabard"?nabardBtns():"")+buyHtml(e)+'</div>';
  $("#course").innerHTML='<button class="back" id="bk">'+(sm?"← Back":"← Back to all courses")+'</button><div class="ch"><div class="ic">'+icon(e)+'</div><h1>'+e.name+'</h1><p>'+e.full+'</p></div>'+b;
  $("#bk").onclick=()=>{location.hash=sm?(sm[2]?"bsc-new":"bsc"):"exams"};
  document.querySelectorAll("[data-go]").forEach(x=>x.onclick=()=>{location.hash=x.dataset.go});document.querySelectorAll("[data-nl]").forEach(x=>x.onclick=()=>{const p=x.dataset.nl.split("-").map(Number),it=e.newSyllabus[p[0]][ "items"][p[1]];if(it.link)window.open(it.link,"_blank","noopener");else alert(it.t+" is being added. Please check back soon or contact us.")});document.querySelectorAll("[data-sem]").forEach(x=>x.onclick=()=>{const n=+x.dataset.sem,u=e.semLinks[n];if(u)window.open(u,"_blank","noopener");else alert("Semester "+(n+1)+" notes are being added. Please check back soon or contact us.")});
- if(e.kind=="free"&&$("#bscBox"))bscInit(e);if(e.kind=="papers")papersInit(e);const bu=$("#buy");if(bu)bu.onclick=()=>{if(e.kind=="papers")return buyPapers(e);if(!user()){mode="login";authUI();$("#authMsg").textContent="Please login to buy.";return open("#mLogin")}
+ if(e.kind=="free")bscInit(e);if(e.kind=="papers")papersInit(e);if(e.kind=="pat")patInit(e);const bu=$("#buy");if(bu)bu.onclick=()=>{if(e.kind=="papers"||e.kind=="pat")return buyPapers(e);if(!user()){mode="login";authUI();$("#authMsg").textContent="Please login to buy.";return open("#mLogin")}
   if(e.payLink)window.open(e.payLink,"_blank","noopener");else{alert("Online payment link is not set yet. Please order on WhatsApp.");window.open(wa("I want to buy the "+e.name+" course (Rs "+e.price+"). Phone: "+user()),"_blank")}}}
 $("#examGrid").onclick=e=>{const c=e.target.closest(".exam");if(c)location.hash=c.dataset.id};
 $("#home-link").onclick=()=>{location.hash="";route()};
