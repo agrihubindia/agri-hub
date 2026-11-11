@@ -61,6 +61,7 @@ footer{text-align:center;padding:24px 16px;color:var(--mu);font-size:.85rem;bord
 .pick,.nb{cursor:pointer;transition:transform .15s,box-shadow .2s}.pick:hover,.nb:hover{transform:translateY(-2px);box-shadow:var(--sh)}.nl{display:grid;gap:10px;margin-top:12px}.nb{border:1px solid var(--bd);border-radius:14px;padding:14px;background:var(--card)}.nb.first{border-color:var(--pr);background:rgba(46,125,50,.08)}
 .bbox{display:block;width:100%;text-align:left;padding:15px 16px;margin:9px 0;border:1px solid var(--bd);border-radius:14px;background:var(--card);color:var(--tx);font-size:1rem;font-weight:600;cursor:pointer;font-family:inherit;transition:transform .15s,border-color .2s}.bbox:hover{transform:translateY(-2px);border-color:var(--pr)}
 .cbtns{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.cbtn{flex:1;min-width:150px;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 16px;border-radius:16px;color:#fff;font-weight:800;text-decoration:none;font-size:1rem;box-shadow:0 7px 0 rgba(0,0,0,.28),0 14px 20px rgba(0,0,0,.22);transition:transform .12s,box-shadow .12s,filter .2s}.cbtn:hover{transform:translateY(-3px);filter:brightness(1.07)}.cbtn:active{transform:translateY(5px);box-shadow:0 2px 0 rgba(0,0,0,.28),0 4px 8px rgba(0,0,0,.2)}.cbtn.wa{background:linear-gradient(180deg,#3ddc6f,#128c3e)}.cbtn.call{background:linear-gradient(180deg,#42a5f5,#1565c0)}.ci{font-size:1.2rem}
+.dl3d{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:14px;border:0;color:#fff;font-weight:800;font-size:.95rem;cursor:pointer;font-family:inherit;background:linear-gradient(180deg,#43a047,#1b5e20);box-shadow:0 6px 0 #0f3d13,0 12px 18px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s,filter .2s}.dl3d:hover{transform:translateY(-2px);filter:brightness(1.06)}.dl3d:active{transform:translateY(4px);box-shadow:0 2px 0 #0f3d13,0 4px 8px rgba(0,0,0,.2)}
 </style>
 </head>
 <body>
@@ -259,6 +260,24 @@ async function bscPdf(syl,semName,subj){const url=BSC_BASE+syl+"/"+slugOf(semNam
  try{const r=await fetch(url);if(!r.ok)return alert(subj+" PDF is being added. Please check back soon.");
   const a=document.createElement("a");a.href=URL.createObjectURL(await r.blob());a.download=slugOf(subj)+".pdf";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}
  catch(_){window.open(url,"_blank","noopener")}}
+async function bscBlob(syl,semName,subj){const url=BSC_BASE+syl+"/"+slugOf(semName)+"/"+slugOf(subj)+".pdf";
+ try{const r=await fetch(url);if(!r.ok)return{error:subj+" PDF is being added. Please check back soon.",url};return{blob:await r.blob(),url}}
+ catch(_){return{url}}}
+async function renderPdfInto(v,bytes,title,onDl){
+ try{pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  const pdf=await pdfjsLib.getDocument({data:bytes}).promise;
+  v.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin:0 0 10px"><b style="font-size:.9rem">'+esc(title)+'</b><button class="dl3d" id="dlMain">⬇ Download</button></div>';
+  $("#dlMain").onclick=onDl;
+  const w=Math.min(v.clientWidth||360,860);
+  for(let i=1;i<=pdf.numPages;i++){const pg=await pdf.getPage(i),sc=w/pg.getViewport({scale:1}).width,vp=pg.getViewport({scale:sc*2});
+   const cv=document.createElement("canvas");cv.width=vp.width;cv.height=vp.height;cv.style.cssText="width:"+w+"px;display:block;margin:0 auto 8px";v.appendChild(cv);
+   await pg.render({canvasContext:cv.getContext("2d"),viewport:vp}).promise}
+ }catch(_){v.textContent="Could not open this PDF. Please try again."}}
+async function bscOpen(syl,semName,subj){open("#mView");const v=$("#vBody");v.innerHTML="Loading...";
+ const r=await bscBlob(syl,semName,subj);
+ if(r.error){v.textContent=r.error;return}
+ if(!r.blob){$("#mView").classList.remove("on");return window.open(r.url,"_blank","noopener")}
+ await renderPdfInto(v,await r.blob.arrayBuffer(),subj,()=>bscPdf(syl,semName,subj))}
 function bscInit(e){const box=$("#bscBox");if(!box)return;const D=CONFIG.bscData,L=CONFIG.bscLinks||{},NM={"old":"Old Syllabus","new":"New Syllabus"};let syl=null,sem=null;
  const BK='<button class="back" data-b="back" style="padding:0 0 10px">← Back</button>';
  function draw(){
@@ -268,7 +287,7 @@ function bscInit(e){const box=$("#bscBox");if(!box)return;const D=CONFIG.bscData
  box.onclick=ev=>{const t=ev.target.closest("[data-b]");if(!t)return;const a=t.dataset.b,v=t.dataset.v;
   if(a=="syl"){syl=v;sem=null;draw()}else if(a=="sem"){sem=+v;draw()}
   else if(a=="back"){if(sem!==null)sem=null;else syl=null;draw()}
-  else if(a=="sub"){const x=D[syl][sem],nm=["Syllabus"].concat(x.s)[+v],u=L[syl+"|"+x.n+"|"+nm];if(u)return window.open(u,"_blank","noopener");bscPdf(syl,x.n,nm)}};
+  else if(a=="sub"){const x=D[syl][sem],nm=["Syllabus"].concat(x.s)[+v],u=L[syl+"|"+x.n+"|"+nm];if(u)return window.open(u,"_blank","noopener");bscOpen(syl,x.n,nm)}};
  draw()}
 async function papersInit(e){if(!user())return;const r=await fn("get-paper",{});
  const list=r.files||(r.folders?r.folders.flatMap(f=>f.files.map(n=>({folder:f.folder,name:n}))):null);if(!list)return;const c=$("#course .card");if(!c)return;
@@ -283,7 +302,7 @@ async function papersInit(e){if(!user())return;const r=await fn("get-paper",{});
 async function openPdf(path){open("#mView");const v=$("#vBody");v.innerHTML="Loading...";
  const r=await fn("get-paper",{action:"url",path});if(r.error){v.textContent=r.error;return}
  try{pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
-  const pdf=await pdfjsLib.getDocument(r.url).promise;v.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px"><b style="font-size:.9rem">'+esc(clean2(path))+'</b><button class="btn" id="vdl" style="padding:8px 14px">⬇ Download</button></div>';$("#vdl").onclick=()=>dlPdf(path);const w=Math.min(v.clientWidth||360,860),wm=user();
+  const pdf=await pdfjsLib.getDocument(r.url).promise;v.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px"><b style="font-size:.9rem">'+esc(clean2(path))+'</b><button class="dl3d" id="vdl">⬇ Download</button></div>';$("#vdl").onclick=()=>dlPdf(path);const w=Math.min(v.clientWidth||360,860),wm=user();
   for(let i=1;i<=pdf.numPages;i++){const pg=await pdf.getPage(i),sc=w/pg.getViewport({scale:1}).width,vp=pg.getViewport({scale:sc*2});
    const cv=document.createElement("canvas");cv.width=vp.width;cv.height=vp.height;cv.style.cssText="width:"+w+"px;display:block;margin:0 auto 8px";v.appendChild(cv);
    const cx=cv.getContext("2d");await pg.render({canvasContext:cx,viewport:vp}).promise;
@@ -335,7 +354,7 @@ async function patOpen(path){open("#mView");const v=$("#vBody");v.innerHTML="Loa
  const r=await patCall({action:"pdf",path});if(r.error){v.textContent=r.error;return}
  try{pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
   const pdf=await pdfjsLib.getDocument({data:await r.blob.arrayBuffer()}).promise;
-  v.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px"><b style="font-size:.9rem">'+esc(clean2(path))+'</b><button class="btn" id="patDl2" style="padding:8px 14px">⬇ Download</button></div>';
+  v.innerHTML='<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 10px"><b style="font-size:.9rem">'+esc(clean2(path))+'</b><button class="dl3d" id="patDl2">⬇ Download</button></div>';
   $("#patDl2").onclick=()=>patDl(path);
   const w=Math.min(v.clientWidth||360,860);
   for(let i=1;i<=pdf.numPages;i++){const pg=await pdf.getPage(i),sc=w/pg.getViewport({scale:1}).width,vp=pg.getViewport({scale:sc*2});
