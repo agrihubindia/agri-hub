@@ -108,8 +108,17 @@ footer{text-align:center;padding:24px 16px;color:var(--mu);font-size:.85rem;bord
   <div class="card" style="box-shadow:none"><p style="margin:4px 0">📱 <b id="pfPh"></b></p><p style="margin:4px 0">✉️ <b id="pfEm"></b></p><p style="margin:8px 0 0" id="pfAcc"></p></div>
   <p style="margin:10px 0 0">🔒 Password: <b>••••••••</b> &nbsp;<a href="#" id="pfChg">Change</a></p><small style="color:var(--mu)">For your safety the real password is never shown. You can change it here.</small>
   <div id="pfPwBox" hidden><div class="pwrap"><input class="f" id="pnpw" type="password" autocomplete="new-password" placeholder="New strong password"><button type="button" class="eye" data-eye aria-label="Show password"></button></div><div id="pnpwRules" class="rules"></div><button class="btn" id="pfSave" style="width:100%">Save New Password</button><div id="pfMsg" style="margin-top:6px"></div></div>
-  <div style="text-align:center;margin:8px 0 4px"><img id="pfImg" alt="" style="width:96px;height:96px;border-radius:50%;object-fit:cover;display:none;margin:0 auto"><div id="pfInit" style="width:96px;height:96px;border-radius:50%;margin:0 auto;display:grid;place-items:center;font-size:2rem;font-weight:800;color:#fff;background:linear-gradient(135deg,#43a047,#1b5e20)"></div><div style="margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn" id="pfPick">📷 Upload photo</button><button class="btn" id="pfRm" style="background:#78909c">Remove</button></div><input type="file" id="pfFile" accept="image/jpeg,image/png,image/webp" hidden><small style="color:var(--mu)">JPG, PNG ya WEBP, 2 MB tak</small></div>
+  <div style="text-align:center;margin:8px 0 4px"><img id="pfImg" alt="" style="width:96px;height:96px;border-radius:50%;object-fit:cover;display:none;margin:0 auto"><div id="pfInit" style="width:96px;height:96px;border-radius:50%;margin:0 auto;display:grid;place-items:center;font-size:2rem;font-weight:800;color:#fff;background:linear-gradient(135deg,#43a047,#1b5e20)"></div><div style="margin-top:10px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="btn" id="pfPick">📷 Upload photo</button><button class="btn" id="pfRm" style="background:#78909c">Remove</button></div><input type="file" id="pfFile" accept="image/jpeg,image/png,.jpg,.jpeg,.png" hidden><small style="color:var(--mu)">JPEG, JPG ya PNG, 20 MB tak</small></div>
 <button class="btn" id="pfOut" style="width:100%;margin-top:12px;background:#c62828">Logout</button></div></div>
+<div class="modal" id="mCrop"><div class="box"><button class="x" data-close>×</button>
+ <h3 style="text-align:center;margin:4px 0 10px">✂️ Crop your photo</h3>
+ <div id="crStage" style="position:relative;width:280px;height:280px;margin:0 auto;overflow:hidden;border-radius:14px;background:#111;touch-action:none;cursor:move"><img id="crImg" alt="" style="position:absolute;max-width:none;user-select:none;pointer-events:none"><div style="position:absolute;inset:0;border-radius:50%;box-shadow:0 0 0 999px rgba(0,0,0,.55);border:2px solid #fff;pointer-events:none"></div></div>
+ <div style="display:flex;align-items:center;gap:8px;justify-content:center;margin:12px 0"><button class="btn" id="crOut" style="padding:8px 14px">−</button><input type="range" id="crZoom" min="1" max="4" step="0.01" value="1" style="flex:1;max-width:200px;accent-color:#2e7d32"><button class="btn" id="crIn" style="padding:8px 14px">+</button></div>
+ <p style="text-align:center;color:var(--mu);margin:0 0 8px;font-size:.85rem">Photo ko drag karke adjust karein. Zoom ke liye + / − ya slider use karein.</p>
+ <div style="text-align:center;margin:8px 0"><small style="color:var(--mu)">Preview</small><canvas id="crPrev" width="120" height="120" style="display:block;width:96px;height:96px;border-radius:50%;background:#e8f5e9;margin:4px auto 0"></canvas></div>
+ <div id="crMsg" style="color:#c62828;text-align:center;min-height:18px;margin-top:6px"></div>
+ <div style="display:flex;gap:10px;margin-top:8px"><button class="btn" id="crCancel" style="flex:1;background:#78909c">Cancel</button><button class="btn" id="crSave" style="flex:1">✅ Save photo</button></div>
+</div></div>
 <div class="modal" id="mReset"><div class="box"><div class="i3d">🔑</div><h3 style="text-align:center">Set a new password</h3>
   <div class="pwrap"><input class="f" id="npw" type="password" autocomplete="new-password" placeholder="New strong password"><button type="button" class="eye" data-eye aria-label="Show password"></button></div>
   <div id="npwRules" class="rules"></div><button class="btn" style="width:100%;margin-top:8px" id="rsGo">Save New Password</button><div id="rsMsg" style="margin-top:8px"></div></div></div>
@@ -189,7 +198,7 @@ function paintLogin(){const u=user(),n=LS.g("ah_name")||"Student",f=n.split(" ")
  const h=$("#hello");h.hidden=!u;if(u){h.innerHTML=(av?'<img class="avbig" src="'+esc(av)+'" alt="">':'<div class="av">'+esc(f.charAt(0).toUpperCase())+'</div>')+'<div><b>Hello, '+esc(n)+'! 👋</b><br><small>Welcome to Agri Hub</small></div><button class="btn" id="hp">My Profile</button>';$("#hp").onclick=openProfile}}
 $("#signupBtn").onclick=()=>{mode="signup";authUI();open("#mLogin")};
 $("#pfPick").onclick=()=>$("#pfFile").click();
-$("#pfFile").onchange=ev=>{const f=ev.target.files[0];ev.target.value="";if(f)avatarUpload(f)};
+$("#pfFile").onchange=ev=>{const f=ev.target.files[0];ev.target.value="";if(f)cropOpen(f)};
 $("#pfRm").onclick=()=>{if(confirm("Remove your profile photo?"))avatarRemove()};
 $("#pfChg").onclick=e=>{e.preventDefault();$("#pfPwBox").hidden=!$("#pfPwBox").hidden;$("#pnpwRules").innerHTML=rulesHTML($("#pnpw").value)};
 $("#pnpw").addEventListener("input",()=>{$("#pnpwRules").innerHTML=rulesHTML($("#pnpw").value)});
@@ -404,21 +413,53 @@ async function sampleOpen(url,n){open("#mView");const v=$("#vBody");v.innerHTML=
 async function sampleDl(url,n){try{const r=await fetch(url);const a=document.createElement("a");a.href=URL.createObjectURL(await r.blob());a.download=n;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}catch(_){window.open(url,"_blank","noopener")}}
 function paintPhoto(){const av=LS.g("ah_avatar")||"",n=LS.g("ah_name")||"Student",im=$("#pfImg"),ini=$("#pfInit");
  if(!im||!ini)return;im.src=av;im.style.display=av?"block":"none";ini.style.display=av?"none":"grid";ini.textContent=n.charAt(0).toUpperCase();$("#pfRm").hidden=!av}
-async function avatarUpload(file){
+async function avatarUpload(blob){
  if(!user())return alert("Please login first.");
- if(!/^image\/(jpeg|png|webp)$/.test(file.type))return alert("Only JPG, PNG or WEBP photo is allowed.");
- if(file.size>2*1024*1024)return alert("Photo must be 2 MB or smaller.");
  const {data:{session}}=await sb.auth.getSession();if(!session)return alert("Please login first.");
- const uid=session.user.id,ext=file.type==="image/png"?"png":file.type==="image/webp"?"webp":"jpg",name="avatar-"+Date.now()+"."+ext;
- const up=await sb.storage.from("avatars").upload(uid+"/"+name,file,{contentType:file.type,upsert:false});
- if(up.error)return alert("Could not upload photo. Please try again.");
+ const uid=session.user.id,name="avatar-"+Date.now()+".jpg";
+ const up=await sb.storage.from("avatars").upload(uid+"/"+name,blob,{contentType:"image/jpeg",upsert:false});
+ if(up.error)return alert("Photo upload nahi ho paayi. Dobara try karein.");
  const url=sb.storage.from("avatars").getPublicUrl(uid+"/"+name).data.publicUrl+"?v="+Date.now();
  const row=await sb.from("profiles").update({avatar_url:url}).eq("user_id",uid).select("user_id");
- if(row.error||!row.data||!row.data.length)return alert("Photo uploaded, but profile could not be updated. Please contact us.");
+ if(row.error||!row.data||!row.data.length)return alert("Photo upload ho gayi, lekin profile update nahi ho paayi. Kripya humse sampark karein.");
  const old=await sb.storage.from("avatars").list(uid,{limit:100});
  const rm=(old.data||[]).filter(x=>x.id!==null&&x.name!==name).map(x=>uid+"/"+x.name);
  if(rm.length)await sb.storage.from("avatars").remove(rm);
- LS.s("ah_avatar",url);paintLogin();paintPhoto()}
+ LS.s("ah_avatar",url);paintLogin();paintPhoto();alert("Profile photo save ho gayi!")}
+let crS={url:null,z:1,ox:0,oy:0,base:1,S:280,drag:null};
+function cropOpen(file){
+ const nm=(file.name||"").toLowerCase();
+ const okType=file.type==="image/jpeg"||file.type==="image/png"||(!file.type&&/\.(jpe?g|png)$/.test(nm));
+ if(!okType)return alert("Sirf JPEG, JPG ya PNG photo upload karein.");
+ if(file.size>20*1024*1024)return alert("Photo 20 MB se badi hai. Kripya 20 MB se chhoti photo chunein.");
+ if(crS.url)URL.revokeObjectURL(crS.url);
+ const img=$("#crImg");crS.url=URL.createObjectURL(file);
+ img.onload=()=>{crS.base=Math.max(crS.S/img.naturalWidth,crS.S/img.naturalHeight);crS.z=1;crS.ox=0;crS.oy=0;$("#crZoom").value=1;$("#crMsg").textContent="";$("#crSave").disabled=false;crRender()};
+ img.onerror=()=>{$("#crMsg").textContent="Ye photo khul nahi rahi. Kripya dusri photo chunein."};
+ img.src=crS.url;open("#mCrop")}
+function crRender(){const img=$("#crImg");if(!img.naturalWidth)return;const S=crS.S,sc=crS.base*crS.z,dw=img.naturalWidth*sc,dh=img.naturalHeight*sc;
+ const mx=(dw-S)/2,my=(dh-S)/2;crS.ox=Math.max(-mx,Math.min(mx,crS.ox));crS.oy=Math.max(-my,Math.min(my,crS.oy));
+ img.style.width=dw+"px";img.style.height=dh+"px";img.style.left=((S-dw)/2+crS.ox)+"px";img.style.top=((S-dh)/2+crS.oy)+"px";
+ crDraw($("#crPrev"),120)}
+function crSource(){const img=$("#crImg"),S=crS.S,sc=crS.base*crS.z,dw=img.naturalWidth*sc,dh=img.naturalHeight*sc;
+ const left=(S-dw)/2+crS.ox,top=(S-dh)/2+crS.oy;return{sx:-left/sc,sy:-top/sc,side:S/sc}}
+function crDraw(canvas,size){const c=canvas.getContext("2d"),img=$("#crImg");if(!img.naturalWidth)return;const r=crSource();c.clearRect(0,0,size,size);c.drawImage(img,r.sx,r.sy,r.side,r.side,0,0,size,size)}
+async function cropSave(){const btn=$("#crSave"),img=$("#crImg");if(!img.naturalWidth)return;btn.disabled=true;btn.textContent="Saving...";
+ try{const c=document.createElement("canvas");c.width=512;c.height=512;const r=crSource();c.getContext("2d").drawImage(img,r.sx,r.sy,r.side,r.side,0,0,512,512);
+  const blob=await new Promise(res=>c.toBlob(res,"image/jpeg",0.9));
+  if(!blob){$("#crMsg").textContent="Photo save nahi ho paayi. Dobara try karein.";return}
+  $("#mCrop").classList.remove("on");await avatarUpload(blob)}
+ catch(_){$("#crMsg").textContent="Photo save nahi ho paayi. Dobara try karein."}
+ finally{btn.disabled=false;btn.textContent="✅ Save photo"}}
+(function(){const stg=$("#crStage");
+ stg.addEventListener("pointerdown",ev=>{crS.drag={x:ev.clientX,y:ev.clientY,ox:crS.ox,oy:crS.oy};try{stg.setPointerCapture(ev.pointerId)}catch(_){}});
+ stg.addEventListener("pointermove",ev=>{if(!crS.drag)return;crS.ox=crS.drag.ox+(ev.clientX-crS.drag.x);crS.oy=crS.drag.oy+(ev.clientY-crS.drag.y);crRender()});
+ const end=()=>{crS.drag=null};stg.addEventListener("pointerup",end);stg.addEventListener("pointercancel",end);
+ const zoomTo=z=>{crS.z=Math.max(1,Math.min(4,z));$("#crZoom").value=crS.z;crRender()};
+ $("#crZoom").addEventListener("input",ev=>{crS.z=+ev.target.value;crRender()});
+ $("#crIn").onclick=()=>zoomTo(crS.z+0.2);$("#crOut").onclick=()=>zoomTo(crS.z-0.2);
+ $("#crSave").onclick=cropSave;$("#crCancel").onclick=()=>$("#mCrop").classList.remove("on");
+})();
 async function avatarRemove(){const {data:{session}}=await sb.auth.getSession();if(!session)return;const uid=session.user.id;
  const old=await sb.storage.from("avatars").list(uid,{limit:100});
  const rm=(old.data||[]).filter(x=>x.id!==null).map(x=>uid+"/"+x.name);
