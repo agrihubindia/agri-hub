@@ -9,7 +9,8 @@
 :root{--bg:#f3faf2;--card:#fff;--tx:#14261a;--mu:#5a6e5e;--pr:#2e7d32;--pr2:#1b5e20;--ac:#ffb300;--bd:#dcebd9;--sh:0 8px 24px rgba(27,94,32,.12);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1a11;--card:#16251a;--tx:#e8f4ea;--mu:#9bb5a0;--pr:#66bb6a;--pr2:#43a047;--bd:#27402c;--sh:0 8px 24px rgba(0,0,0,.4)}}
 *{box-sizing:border-box}html{scroll-behavior:smooth}[hidden]{display:none!important}
-body{margin:0;background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
+html{background:var(--bg)}
+body{margin:0;background:transparent;color:var(--tx);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
 header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:linear-gradient(90deg,#1b5e20,#2e7d32);color:#fff;box-shadow:0 2px 12px rgba(0,0,0,.2)}
 .brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.3rem;cursor:pointer}
 .logo{width:48px;height:48px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:24px;overflow:hidden}.logo img{width:100%;height:100%;object-fit:cover}
@@ -63,13 +64,48 @@ footer{text-align:center;padding:24px 16px;color:var(--mu);font-size:.85rem;bord
 .cbtns{display:flex;gap:12px;flex-wrap:wrap;margin:14px 0}.cbtn{flex:1;min-width:150px;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 16px;border-radius:16px;color:#fff;font-weight:800;text-decoration:none;font-size:1rem;box-shadow:0 7px 0 rgba(0,0,0,.28),0 14px 20px rgba(0,0,0,.22);transition:transform .12s,box-shadow .12s,filter .2s}.cbtn:hover{transform:translateY(-3px);filter:brightness(1.07)}.cbtn:active{transform:translateY(5px);box-shadow:0 2px 0 rgba(0,0,0,.28),0 4px 8px rgba(0,0,0,.2)}.cbtn.wa{background:linear-gradient(180deg,#3ddc6f,#128c3e)}.cbtn.call{background:linear-gradient(180deg,#42a5f5,#1565c0)}.ci{font-size:1.2rem}
 .dl3d{display:inline-flex;align-items:center;gap:8px;padding:11px 18px;border-radius:14px;border:0;color:#fff;font-weight:800;font-size:.95rem;cursor:pointer;font-family:inherit;background:linear-gradient(180deg,#43a047,#1b5e20);box-shadow:0 6px 0 #0f3d13,0 12px 18px rgba(0,0,0,.25);transition:transform .12s,box-shadow .12s,filter .2s}.dl3d:hover{transform:translateY(-2px);filter:brightness(1.06)}.dl3d:active{transform:translateY(4px);box-shadow:0 2px 0 #0f3d13,0 4px 8px rgba(0,0,0,.2)}
 .avs{width:24px;height:24px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:6px}.avbig{width:46px;height:46px;flex:none;border-radius:50%;object-fit:cover;box-shadow:0 6px 12px rgba(27,94,32,.35)}.cpl{padding-left:20px;line-height:1.8}
+/* Background video */
+.bgv{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;background:linear-gradient(120deg,#c8e6c9,#a5d6a7,#dcedc8,#aed581);background-size:300% 300%;animation:bgmove 14s ease-in-out infinite}
+@keyframes bgmove{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.bgv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(6px);transform:scale(1.08);opacity:0;transition:opacity 1.2s}
+.bgv video.on{opacity:.9}
+.bgv i{position:absolute;inset:0;background:linear-gradient(180deg,rgba(243,250,242,.55),rgba(243,250,242,.78))}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .bgv{background:linear-gradient(120deg,#0e1a11,#1b3a20,#12281a,#1f4a28);background-size:300% 300%}:root:not([data-theme="light"]) .bgv i{background:linear-gradient(180deg,rgba(14,26,17,.62),rgba(14,26,17,.82))}}
+/* ===== Agri Hub v2 changes ===== */
+.hero{position:relative;overflow:hidden;padding:54px 20px 60px;background:radial-gradient(circle at 10% 34%,rgba(110,255,200,.38),transparent 32%),radial-gradient(circle at 80% 20%,rgba(255,222,140,.85),transparent 38%),radial-gradient(circle at 28% 22%,rgba(255,200,90,.45) 0 2px,transparent 3px) 0 0/46px 46px,linear-gradient(180deg,#34584a 0%,#7f9a76 34%,#d8c27c 52%,#5d8a33 68%,#244a1c 100%)}
+.hero h1{text-shadow:0 3px 14px rgba(0,0,0,.45);font-weight:800}.hero p{text-shadow:0 2px 8px rgba(0,0,0,.4);font-size:1.05rem}
+.hero .btn{background:#eab308;color:#1d1600;border-radius:99px;padding:14px 38px;font-size:1.05rem;box-shadow:0 8px 20px rgba(0,0,0,.28)}
+.chips span{background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.38);backdrop-filter:blur(6px);padding:8px 18px;font-weight:600}
+#ribbon{position:sticky;top:calc(68px + env(safe-area-inset-top,0px));z-index:19;display:flex;justify-content:center;gap:4px;padding:6px 12px;background:var(--card);border-bottom:1px solid var(--bd);box-shadow:0 4px 12px rgba(27,94,32,.1)}
+.dd{position:relative}.ddb{border:0;background:none;color:var(--tx);font-family:inherit;font-weight:700;font-size:.92rem;padding:10px 16px;border-radius:10px;cursor:pointer}.ddb:hover,.dd.open .ddb{background:rgba(46,125,50,.12);color:var(--pr)}
+.ddp{display:none;position:absolute;top:100%;left:0;min-width:280px;max-height:70vh;overflow:auto;background:var(--card);border:1px solid var(--bd);border-radius:14px;box-shadow:var(--sh);padding:6px;z-index:40}.dd.open .ddp{display:block}
+.ddp a{display:flex;gap:10px;align-items:center;padding:9px 12px;border-radius:10px;color:var(--tx);text-decoration:none;font-size:.9rem}.ddp a:hover{background:rgba(46,125,50,.12);color:var(--pr)}.ddp a b{display:block}.ddp a small{display:block;color:var(--mu);font-size:.75rem}.ddi{width:26px;text-align:center;font-size:1.2rem;flex:none}.ddi img{width:26px;height:26px;border-radius:50%;object-fit:cover}
+.soc{gap:20px}.soc a.s3{width:58px;height:58px;padding:0;border:0;border-radius:18px;display:grid;place-items:center;color:#fff;background:var(--c);box-shadow:0 8px 16px rgba(0,0,0,.25),inset 0 2px 4px rgba(255,255,255,.45),inset 0 -4px 6px rgba(0,0,0,.25);transform:perspective(300px) rotateX(8deg) rotateY(-8deg);animation:socF 3s ease-in-out infinite;transition:transform .25s,box-shadow .25s}.soc a.s3 svg{width:28px;height:28px}
+.soc a.s3:nth-child(2){animation-delay:.4s}.soc a.s3:nth-child(3){animation-delay:.8s}.soc a.s3:nth-child(4){animation-delay:1.2s}
+@keyframes socF{50%{transform:perspective(300px) rotateX(8deg) rotateY(-8deg) translateY(-7px)}}
+.soc a.s3:hover{animation:none;transform:perspective(300px) translateY(-8px) scale(1.12);box-shadow:0 14px 24px rgba(0,0,0,.35)}
+.s3.yt{--c:linear-gradient(145deg,#ff1744,#b71c1c)}.s3.ig{--c:linear-gradient(145deg,#f50057,#aa00ff,#ff9100)}.s3.tg{--c:linear-gradient(145deg,#29b6f6,#0277bd)}.s3.fb{--c:linear-gradient(145deg,#2979ff,#1565c0)}
+@media(min-width:901px){
+ main{max-width:1280px}
+ .hero{padding:72px 24px 80px;min-height:440px}.hero h1{font-size:3rem}
+ .hgrid{display:grid;grid-template-columns:minmax(0,1fr) 300px;column-gap:24px;align-items:start}
+ #exams{grid-column:1;grid-row:1}.hpz{grid-column:1;grid-row:2}.qz{grid-column:2;grid-row:1/span 2;position:sticky;top:150px}
+ #examGrid{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:10px}
+ #examGrid .exam{padding:12px 6px}#examGrid .ic{width:52px;height:52px;font-size:1.6rem}#examGrid .exam b{font-size:.92rem}#examGrid .exam small{font-size:.72rem;display:block;line-height:1.3}
+ .qz .card{padding:12px;max-height:calc(100vh - 200px);overflow:auto}.qz h2{font-size:1.1rem}.qz .q{margin:8px 0;font-size:.82rem}.qz .q b{margin-bottom:3px}.qz .q label{padding:5px 9px;margin:3px 0;font-size:.8rem}.qz #qsub{width:100%;padding:9px;font-size:.9rem}
+}
+@media(max-width:900px){#ribbon{display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:4px 8px}.dd{position:static}.ddb{width:100%;font-size:.8rem;padding:9px 6px;text-align:center}.ddp{left:8px;right:8px;min-width:0}}
+@media(hover:hover) and (min-width:901px){.dd:hover .ddp{display:block}}
+
 </style>
 </head>
 <body>
+<div class="bgv"><video id="bgVid" autoplay muted loop playsinline preload="metadata"><source src="video.mp4" type="video/mp4"><source src="https://assets.mixkit.co/videos/preview/mixkit-green-rice-field-in-the-wind-27950-large.mp4" type="video/mp4"></video><i></i></div>
 <header>
   <div class="brand" id="home-link"><div class="logo" id="logo">🌾</div><span id="siteName">Agri Hub</span></div>
   <div style="display:flex;gap:8px;align-items:center"><button class="btn" id="signupBtn">Sign up</button><button class="btn" id="loginBtn">Login</button></div>
 </header>
+<nav id="ribbon" aria-label="Main menu"></nav>
 <main>
 <div id="home">
   <div class="hero">
@@ -80,11 +116,13 @@ footer{text-align:center;padding:24px 16px;color:var(--mu);font-size:.85rem;bord
     <div class="chips"><span>📒 Expert Notes</span><span>✅ Test Series</span><span>🗂️ 10 Year Papers</span></div>
   </div>
   <div id="hello" class="hello" hidden></div>
-  <section id="exams" class="reveal"><h2>🎯 Courses &amp; Government Agriculture Jobs</h2><div class="grid" id="examGrid"></div></section>
   <section class="reveal"><div class="quote">“Work so quietly that your success makes the noise. Your selection is certain!” 💪</div></section>
-  <section class="reveal"><h2>📝 Today’s Daily Quiz</h2>
+  <div class="hgrid">
+  <section id="exams" class="reveal"><h2>🎯 Courses &amp; Government Agriculture Jobs</h2><div class="grid" id="examGrid"></div></section>
+  <section class="reveal qz"><h2>📝 Today’s Daily Quiz</h2>
     <div class="card"><div id="quiz"></div><button class="btn" id="qsub">Submit</button><div id="qres" style="margin-top:12px;font-weight:700"></div></div></section>
-  <section class="reveal"><h2>🤝 Need Help?</h2><div class="card">Facing any problem with payment, PDFs or login? Contact us and we will help you fully.<div class="cn" id="help"></div></div></section>
+  <section class="reveal hpz"><h2>🤝 Need Help?</h2><div class="card">Facing any problem with payment, PDFs or login? Contact us and we will help you fully.<div class="cn" id="help"></div></div></section>
+  </div>
   <section class="reveal"><h2 style="text-align:center">Follow Us</h2><div class="soc" id="soc"></div></section>
 </div>
 <div id="course" hidden></div>
@@ -96,6 +134,7 @@ footer{text-align:center;padding:24px 16px;color:var(--mu);font-size:.85rem;bord
   <div class="i3d" id="authIc">🔐</div>
   <h3 id="authTitle" style="text-align:center">Login</h3>
   <input class="f" id="nm" autocomplete="name" placeholder="Your full name" hidden>
+  <div id="suPhotoBox" hidden style="text-align:center;margin:6px 0"><img id="suPrev" alt="" style="width:76px;height:76px;border-radius:50%;object-fit:cover;display:none;margin:0 auto 6px"><div id="suDef" style="width:76px;height:76px;border-radius:50%;margin:0 auto 6px;display:grid;place-items:center;font-size:2rem;color:#fff;background:linear-gradient(135deg,#43a047,#1b5e20)">👤</div><button type="button" class="btn" id="suPick" style="padding:7px 14px;font-size:.85rem">📷 Add profile photo (optional)</button> <button type="button" class="btn" id="suRm" hidden style="padding:7px 12px;font-size:.85rem;background:#78909c">Remove</button><input type="file" id="suFile" accept="image/jpeg,image/png" hidden></div>
   <input class="f" id="ph" autocomplete="username" placeholder="Phone number or email">
   <div id="emW" hidden><input class="f" id="em2" type="email" autocomplete="email" placeholder="Email (needed to reset password)"></div>
   <div id="pwW" class="pwrap"><input class="f" id="pw" type="password" autocomplete="current-password" placeholder="Password"><button type="button" class="eye" data-eye aria-label="Show password"></button></div>
@@ -168,7 +207,9 @@ $("#siteName").textContent=CONFIG.name;$("#yr").textContent=new Date().getFullYe
 $("#hlogo").src=CONFIG.logoUrl;if(CONFIG.logoUrl)$("#logo").innerHTML='<img src="'+CONFIG.logoUrl+'" alt="logo">';
 $("#help").innerHTML='<a href="mailto:'+CONFIG.email+'">✉️ '+CONFIG.email+'</a>'+CONFIG.phones.map((p,i)=>'<a href="'+wa("Hello, I need help on Agri Hub.",i)+'" target="_blank" rel="noopener">💬 '+show(p)+'</a>').join("");
 $("#waFloat").href=wa("Hello, I need help on Agri Hub.");
-$("#soc").innerHTML=CONFIG.social.map(s=>'<a href="'+(s.u||"#")+'" target="_blank" rel="noopener">'+s.n+'</a>').join("");
+const SOCI={YouTube:["yt",'<svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="4.5" fill="#fff"/><path d="M10 9l5.5 3-5.5 3z" fill="#d32f2f"/></svg>'],Instagram:["ig",'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.2" fill="#fff" stroke="none"/></svg>'],Telegram:["tg",'<svg viewBox="0 0 24 24" fill="#fff"><path d="M21.9 4.2 2.9 11.5c-1 .4-1 1.1-.2 1.3l4.9 1.5 1.9 5.8c.2.6.5.7.9.4l2.7-2.2 4.9 3.6c.9.5 1.5.2 1.8-.8l3.2-15.2c.3-1.2-.4-1.8-1.5-1.4zM8.5 13.6l9.6-6c.5-.3.9-.1.5.2l-8 7.2-.3 3.3z"/></svg>'],Facebook:["fb",'<svg viewBox="0 0 24 24" fill="#fff"><path d="M14 8.5V6.8c0-.8.2-1.2 1.3-1.2H17V2.2C16.7 2.1 15.7 2 14.6 2 12.1 2 10.5 3.5 10.5 6.2v2.3H8v3.4h2.5V22H14V11.9h2.6l.4-3.4z"/></svg>']};
+$("#soc").innerHTML=CONFIG.social.map(s=>{const k=SOCI[s.n],h=s.u||"#";return k?'<a class="s3 '+k[0]+'" href="'+h+'" target="_blank" rel="noopener" aria-label="'+s.n+'" title="'+s.n+'">'+k[1]+'</a>':'<a href="'+h+'" target="_blank" rel="noopener">'+s.n+'</a>'}).join("");
+
 const icon=e=>e.logo?'<img src="'+e.logo+'" alt="'+e.name+'">':e.icon;
 $("#examGrid").innerHTML=CONFIG.exams.map(e=>'<div class="card exam" data-id="'+e.id+'"><div class="ic">'+icon(e)+'</div><b>'+e.name+'</b><small>'+e.full+'</small></div>').join("");
 const open=id=>$(id).classList.add("on");
@@ -188,7 +229,7 @@ $("#quiz").innerHTML=CONFIG.quiz.map((x,i)=>'<div class="q"><b>'+(i+1)+'. '+x.q+
 $("#qsub").onclick=()=>{let sc=0,miss=0;CONFIG.quiz.forEach((x,i)=>{const c=document.querySelector('input[name=q'+i+']:checked');document.querySelectorAll('input[name=q'+i+']').forEach((r,j)=>{const l=r.parentElement;l.classList.remove("ok","no");if(j==x.a)l.classList.add("ok");else if(r.checked)l.classList.add("no")});if(!c)miss++;else if(+c.value==x.a)sc++});
  $("#qres").textContent=(miss?"Please attempt all questions ("+miss+" left). ":"")+"Your score: "+sc+" / "+CONFIG.quiz.length+(sc>=4?" 🎉 Excellent!":" 👍 Keep practising!")};
 /* login: phone or email + password (Supabase) */
-let mode="login";const user=()=>LS.g("ah_user");
+let suBlob=null;let mode="login";const user=()=>LS.g("ah_user");
 const EYE='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',EYEX='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
 document.querySelectorAll("[data-eye]").forEach(b=>{b.innerHTML=EYE;b.onclick=()=>{const i=b.parentElement.querySelector("input"),h=i.type=="password";i.type=h?"text":"password";b.innerHTML=h?EYEX:EYE;b.setAttribute("aria-label",h?"Hide password":"Show password")}});
 const esc=t=>String(t).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -215,7 +256,7 @@ function rulesHTML(p){const s=strongOf(p),n=Object.values(s).filter(Boolean).len
  return '<div class="sbar"><i style="width:'+(n*25)+'%;background:'+c+'"></i></div>'+[[s.len,"8+ characters"],[s.up,"Capital letter (A-Z)"],[s.lo,"Small letter (a-z)"],[s.dg,"Number (0-9)"]].map(x=>(x[0]?"✅ ":"⬜ ")+x[1]).join(" &nbsp; ")}
 $("#pw").addEventListener("input",()=>{if(mode=="signup")$("#pwRules").innerHTML=rulesHTML($("#pw").value)});
 $("#npw").addEventListener("input",()=>{$("#npwRules").innerHTML=rulesHTML($("#npw").value)});$("#npwRules").innerHTML=rulesHTML("");
-function authUI(){const L=mode=="login",S=mode=="signup",F=mode=="forgot";
+function authUI(){const L=mode=="login",S=mode=="signup",F=mode=="forgot";$("#suPhotoBox").hidden=!S;
  $("#authTitle").textContent=L?"Login":S?"Create Account":"Reset Password";$("#authGo").textContent=L?"Login":S?"Sign Up":"Send Reset Link";
  $("#ph").hidden=F;$("#nm").hidden=!S;$("#ph").placeholder=S?"Phone number (10 digits)":"Phone number or email";$("#ph").inputMode=S?"numeric":"text";
  $("#emW").hidden=!(S||F);$("#authIc").textContent=L?"🔐":S?"📝":"🔑";$("#pwRules").hidden=!S;if(S)$("#pwRules").innerHTML=rulesHTML($("#pw").value);$("#pw").autocomplete=S?"new-password":"current-password";$("#pwW").hidden=F;$("#fgLink").parentElement.hidden=!L;
@@ -225,6 +266,7 @@ $("#fgLink").onclick=e=>{e.preventDefault();mode="forgot";authUI()};
 async function syncUser(){const {data:{session}}=await sb.auth.getSession();
  if(!session){["ah_user","ah_name","ah_email","ah_avatar"].forEach(k=>LS.s(k,""));paintLogin();return}
  let ph=null,nm=null;try{const {data}=await sb.from("profiles").select("phone,name,avatar_url").maybeSingle();if(data){ph=data.phone;nm=data.name;LS.s("ah_avatar",data.avatar_url||"")}}catch(_){}
+ if(!LS.g("ah_avatar")){let av=(session.user.user_metadata||{}).avatar_url||"";if(!av){try{const l=await sb.storage.from("avatars").list(session.user.id,{limit:100,sortBy:{column:"name",order:"desc"}});const f=(l.data||[]).filter(x=>x.id!==null)[0];if(f)av=sb.storage.from("avatars").getPublicUrl(session.user.id+"/"+f.name).data.publicUrl}catch(_){}}if(av)LS.s("ah_avatar",av)}
  const u=session.user;if(!ph){const mm=(u.email||"").match(/^p(\d{10})@agrihub-users\.com$/);ph=mm?mm[1]:"user"}
  nm=nm||(u.user_metadata&&u.user_metadata.name)||"";
  LS.s("ah_user",ph);LS.s("ah_name",nm);LS.s("ah_email",u.email||"");paintLogin()}
@@ -239,7 +281,7 @@ $("#authGo").onclick=async()=>{const idf=$("#ph").value.trim(),w=$("#pw").value,
   if(!r.error&&!r.data.session)r=await sb.auth.signInWithPassword({email:e2,password:w});
   b.disabled=false;
   if(r.error)return m.textContent=/already|registered|database|duplicate/i.test(r.error.message||"")?"This phone number or email is already registered. Please login.":"Could not create account. Please try again.";
-  return authDone()}
+  {const bl=suBlob;suReset();await authDone();if(bl)avatarUpload(bl,true);return}}
  if(!idf||w.length<6)return m.textContent="Enter your phone number or email and your password.";
  b.disabled=true;let r;
  if(okm(idf))r=await sb.auth.signInWithPassword({email:idf.toLowerCase(),password:w});
@@ -413,19 +455,20 @@ async function sampleOpen(url,n){open("#mView");const v=$("#vBody");v.innerHTML=
 async function sampleDl(url,n){try{const r=await fetch(url);const a=document.createElement("a");a.href=URL.createObjectURL(await r.blob());a.download=n;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},1500)}catch(_){window.open(url,"_blank","noopener")}}
 function paintPhoto(){const av=LS.g("ah_avatar")||"",n=LS.g("ah_name")||"Student",im=$("#pfImg"),ini=$("#pfInit");
  if(!im||!ini)return;im.src=av;im.style.display=av?"block":"none";ini.style.display=av?"none":"grid";ini.textContent=n.charAt(0).toUpperCase();$("#pfRm").hidden=!av}
-async function avatarUpload(blob){
+async function avatarUpload(blob,silent){
  if(!user())return alert("Please login first.");
  const {data:{session}}=await sb.auth.getSession();if(!session)return alert("Please login first.");
  const uid=session.user.id,name="avatar-"+Date.now()+".jpg";
  const up=await sb.storage.from("avatars").upload(uid+"/"+name,blob,{contentType:"image/jpeg",upsert:false});
  if(up.error)return alert("Photo upload nahi ho paayi: "+(up.error.message||"unknown error")+". Supabase mein avatars bucket aur permissions check karein.");
  const url=sb.storage.from("avatars").getPublicUrl(uid+"/"+name).data.publicUrl+"?v="+Date.now();
+ try{await sb.auth.updateUser({data:{avatar_url:url}})}catch(_){}
  const row=await sb.from("profiles").update({avatar_url:url}).eq("user_id",uid).select("user_id");
  if(row.error||!row.data||!row.data.length)return alert("Photo upload ho gayi, lekin profile update nahi ho paayi: "+((row.error&&row.error.message)||"profile row nahi mili")+". Kripya humse sampark karein.");
  const old=await sb.storage.from("avatars").list(uid,{limit:100});
  const rm=(old.data||[]).filter(x=>x.id!==null&&x.name!==name).map(x=>uid+"/"+x.name);
  if(rm.length)await sb.storage.from("avatars").remove(rm);
- LS.s("ah_avatar",url);paintLogin();paintPhoto();alert("Profile photo save ho gayi!")}
+ LS.s("ah_avatar",url);paintLogin();paintPhoto();if(!silent)alert("Profile photo save ho gayi!")}
 let crS={url:null,z:1,ox:0,oy:0,base:1,S:280,drag:null};
 function cropOpen(file){
  const nm=(file.name||"").toLowerCase();
@@ -466,6 +509,7 @@ async function avatarRemove(){const {data:{session}}=await sb.auth.getSession();
  if(rm.length)await sb.storage.from("avatars").remove(rm);
  const row=await sb.from("profiles").update({avatar_url:null}).eq("user_id",uid).select("user_id");
  if(row.error)return alert("Could not remove photo. Please try again.");
+ try{await sb.auth.updateUser({data:{avatar_url:null}})}catch(_){}
  LS.s("ah_avatar","");paintLogin();paintPhoto()}
 const RZP_CFG={display:{blocks:{upi:{name:"Pay via UPI / QR",instruments:[{method:"upi"}]}},sequence:["block.upi"],preferences:{show_default_blocks:true}}};
 function rzpPrefs(){const ph=user()||"",em=LS.g("ah_email")||"",real=!!em&&!/@agrihub-users\.com$/.test(em),pf={},hd={};
@@ -489,8 +533,24 @@ function route(){const raw=location.hash.slice(1),sm=raw.match(/^bsc-(old|new)(?
 $("#examGrid").onclick=e=>{const c=e.target.closest(".exam");if(c)location.hash=c.dataset.id};
 $("#home-link").onclick=()=>{location.hash="";route()};
 addEventListener("hashchange",route);syncUser();sb.auth.onAuthStateChange(ev=>{if(ev=="PASSWORD_RECOVERY")open("#mReset")});route();
+/* ===== Agri Hub v2: signup photo, ribbon, video saver ===== */
+function suReset(){suBlob=null;const p=$("#suPrev");p.style.display="none";p.removeAttribute("src");$("#suDef").style.display="grid";$("#suRm").hidden=true}
+$("#suPick").onclick=()=>$("#suFile").click();$("#suRm").onclick=suReset;
+$("#suFile").onchange=ev=>{const f=ev.target.files[0];ev.target.value="";if(!f)return;if(!/^image\/(jpeg|png)$/.test(f.type)){$("#authMsg").textContent="Please choose a JPG or PNG photo.";return}
+ const u=URL.createObjectURL(f),im=new Image();im.onload=()=>{const S=512,sd=Math.min(im.naturalWidth,im.naturalHeight),c=document.createElement("canvas");c.width=c.height=S;c.getContext("2d").drawImage(im,(im.naturalWidth-sd)/2,(im.naturalHeight-sd)/2,sd,sd,0,0,S,S);c.toBlob(b=>{URL.revokeObjectURL(u);if(!b)return;suBlob=b;const p=$("#suPrev");p.src=URL.createObjectURL(b);p.style.display="block";$("#suDef").style.display="none";$("#suRm").hidden=false;$("#authMsg").textContent=""},"image/jpeg",.9)};im.onerror=()=>URL.revokeObjectURL(u);im.src=u};
+(function(){const nv=$("#ribbon"),ex=CONFIG.exams,bn=t=>(CONFIG.bonus.find(b=>b.t==t)||{}).d||"",paid=ex.filter(e=>e.kind!="free");
+ const defs=[["Explore Courses",ex,e=>e.full],["Test Series",paid.filter(e=>e.kind!="papers"),e=>bn("Test Series")],["Previous Question Papers",paid,e=>e.kind=="papers"?e.full:bn("Previous 10 Year Papers")],["Government Agriculture Jobs",paid,e=>e.full]];
+ nv.innerHTML=defs.filter(d=>d[1].length).map(d=>'<div class="dd"><button type="button" class="ddb" aria-expanded="false">'+d[0]+' ▾</button><div class="ddp">'+d[1].map(e=>'<a href="#'+e.id+'"><span class="ddi">'+icon(e)+'</span><span><b>'+esc(e.name)+'</b><small>'+esc(d[2](e))+'</small></span></a>').join("")+'</div></div>').join("");
+ const closeAll=()=>nv.querySelectorAll(".dd").forEach(x=>{x.classList.remove("open");x.firstChild.setAttribute("aria-expanded","false")});
+ nv.onclick=ev=>{const b=ev.target.closest(".ddb");if(b){const d=b.parentElement,was=d.classList.contains("open");closeAll();if(!was){d.classList.add("open");b.setAttribute("aria-expanded","true")}return}if(ev.target.closest(".ddp a"))closeAll()};
+ document.addEventListener("click",ev=>{if(!ev.target.closest("#ribbon"))closeAll()});document.addEventListener("keydown",ev=>{if(ev.key=="Escape")closeAll()});
+ const c=navigator.connection;if((c&&c.saveData)||matchMedia("(prefers-reduced-motion:reduce)").matches){const v=$("#bgVid");if(v)v.remove()}})();
+
 const io=new IntersectionObserver(es=>es.forEach(x=>{if(x.isIntersecting)x.target.classList.add("in")}),{threshold:.1});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+</script>
+<script>
+(function(){const v=document.getElementById("bgVid");if(!v)return;v.muted=true;const p=()=>{const r=v.play();if(r&&r.catch)r.catch(()=>{})};v.addEventListener("playing",()=>v.classList.add("on"));v.addEventListener("canplay",p);p();["click","touchstart","scroll","keydown"].forEach(e=>addEventListener(e,p,{once:true,passive:true}))})();
 </script>
 </body>
 </html>
